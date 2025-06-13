@@ -119,6 +119,9 @@ public class FlowNodeService {
                     boolean startRemove = false;
                     for(FlowRecord historyRecord: historyRecords){
                         if(startRemove){
+                            if(historyRecord.getNodeCode().equals(currentRecord.getNodeCode())){
+                                continue;
+                            }
                             this.nextNode = flowWork.getNodeByCode(historyRecord.getNodeCode());
                             this.nextOperator = historyRecord.getCurrentOperator();
                             this.backOperator = historyRecord.getCurrentOperator();
@@ -159,7 +162,7 @@ public class FlowNodeService {
         }
         this.nextNode = nextNode;
         this.nextOperator = flowOperator;
-        this.backOperator = flowOperator;
+        this.backOperator = null;
     }
 
 
