@@ -230,7 +230,7 @@ public class FlowSubmitService {
      */
     public FlowResult submitFlow() {
         FlowResult flowResult = this.submitCurrentFlow();
-        if (this.isSkipIfSameApprover() && !flowResult.isOver()) {
+        if (this.isSkipIfSameApprover() && !flowResult.isOver() && !flowResult.isStart()) {
             List<FlowRecord> flowRecords = flowResult.matchRecordByOperator(currentOperator);
             FlowResult result = flowResult;
             if (!flowRecords.isEmpty()) {
@@ -281,7 +281,7 @@ public class FlowSubmitService {
         if (flowNode.isUnSign()) {
             for (FlowRecord record : historyRecords) {
                 if (record.isTodo() && record.getId() != flowRecord.getId()) {
-                    record.autoPass(currentOperator, snapshot);
+                    record.autoPass(record.getCurrentOperator(), snapshot);
                     FlowRecordRepository flowRecordRepository = flowServiceRepositoryHolder.getFlowRecordRepository();
                     flowRecordRepository.update(record);
                 }
